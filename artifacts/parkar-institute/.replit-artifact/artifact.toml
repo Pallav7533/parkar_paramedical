@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Parkar Paramedical Institute"
+description = "A professional website for Parkar Paramedical Institute & Consultancy in Deesa, helping students explore healthcare courses, nine branch locations, admission guidance, and direct WhatsApp inquiries."
+version = "1.0.0"
+id = "artifacts/parkar-institute"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22324
+
+[services.development]
+run = "pnpm --filter @workspace/parkar-institute run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/parkar-institute", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/parkar-institute/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22324"
+BASE_PATH = "/"

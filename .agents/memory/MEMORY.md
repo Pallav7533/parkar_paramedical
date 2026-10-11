@@ -1,0 +1,1 @@
+- [Parkar site trust](parkar-site-trust.md) — preserve the supplied brand and avoid presenting unverified course claims, images, or reviews as fact.
