@@ -20,7 +20,7 @@ type Course = { slug:string; name:string; full:string; category:string; intro:st
 const courses: Course[] = [
  {slug:'anm',name:'ANM',full:'Auxiliary Nurse Midwifery',category:'Nursing Courses',intro:'ANM is a nursing-related pathway focused on foundational care, community health and maternal and child health concepts.',about:'Students exploring ANM should review the exact program structure, recognition, training arrangements and professional requirements with the institution offering it. The title and scope of practice depend on applicable rules.',learn:'Foundational nursing concepts, community health, basic patient care, maternal and child health topics and practical learning where the program provides it.',audience:'Students interested in community-oriented care and foundational nursing education.',pathway:'Possible next steps may depend on the qualification awarded and applicable admission rules. Confirm further-study and registration pathways before enrolling.',related:['gnm','nursing-assistant','patient-care-assistant']},
  {slug:'gnm',name:'GNM',full:'General Nursing and Midwifery',category:'Nursing Courses',intro:'GNM is a nursing education pathway covering general nursing concepts and midwifery-related learning.',about:'Compare the exact syllabus, clinical learning arrangements, recognition status and registration eligibility of each specific program. GNM is distinct from assistant-level training.',learn:'General nursing concepts, patient observation, care planning, community health and midwifery topics; practical components vary by institution.',audience:'Learners considering a structured nursing qualification and ready to verify its entry and registration conditions.',pathway:'Further education may be possible subject to the qualification, institution and current admission requirements.',related:['anm','bsc-nursing','pb-bsc-nursing']},
- {slug:'pb-bsc-nursing',name:'P.B. B.Sc. Nursing',full:'Post Basic Bachelor of Science in Nursing',category:'Nursing Courses',intro:'A post-basic degree pathway intended for eligible nursing candidates seeking further academic study.',about:'Entry normally depends on a prior nursing qualification and institution-specific conditions. Confirm current eligibility, recognition and any professional registration requirements directly.',learn:'Advanced nursing concepts, evidence-informed practice, community health and subject areas defined by the institution curriculum.',audience:'Nursing-qualified students exploring a bachelor-level continuation pathway.',pathway:'Further study options depend on the recognized award and applicable institutional rules.',related:['gnm','bsc-nursing','msc-nursing']},
+ {slug:'pb-bsc-nursing',name:'P. B.Sc. Nursing',full:'Post Basic Bachelor of Science in Nursing',category:'Nursing Courses',intro:'A post-basic degree pathway intended for eligible nursing candidates seeking further academic study.',about:'Entry normally depends on a prior nursing qualification and institution-specific conditions. Confirm current eligibility, recognition and any professional registration requirements directly.',learn:'Advanced nursing concepts, evidence-informed practice, community health and subject areas defined by the institution curriculum.',audience:'Nursing-qualified students exploring a bachelor-level continuation pathway.',pathway:'Further study options depend on the recognized award and applicable institutional rules.',related:['gnm','bsc-nursing','msc-nursing']},
  {slug:'bsc-nursing',name:'B.Sc. Nursing',full:'Bachelor of Science in Nursing',category:'Nursing Courses',intro:'B.Sc. Nursing is a degree-level nursing education pathway with academic and practice-oriented components.',about:'Before applying, verify the institution, current admission criteria, course recognition, clinical learning arrangements and professional registration rules.',learn:'Nursing foundations, human health sciences, patient care, community health and supervised practical learning where included.',audience:'Students considering degree-level nursing education and the responsibilities of a regulated profession.',pathway:'Further study depends on eligibility, the awarding institution and current regulations.',related:['anm','gnm','pb-bsc-nursing','msc-nursing']},
  {slug:'msc-nursing',name:'M.Sc. Nursing',full:'Master of Science in Nursing',category:'Nursing Courses',intro:'M.Sc. Nursing is postgraduate nursing study for candidates who meet the relevant entry criteria.',about:'Specializations, eligibility, duration and recognition are specific to the institution and applicable regulations. Verify all details before applying.',learn:'Advanced nursing study, research methods and specialization-specific topics as provided by the institution.',audience:'Qualified nursing graduates exploring postgraduate academic and professional development.',pathway:'Further academic pathways may be available subject to admission rules and recognized qualifications.',related:['bsc-nursing','pb-bsc-nursing','gnm']},
  {slug:'mlt',name:'MLT',full:'Medical Laboratory Technology',category:'Laboratory & Diagnostics',intro:'Medical Laboratory Technology relates to laboratory processes that support diagnostic testing and health services.',about:'Program names and qualification levels differ. Ask which exact award is offered, what facilities and supervised practice apply, and what roles the qualification supports.',learn:'Depending on the curriculum: laboratory safety, specimen handling, basic testing concepts and quality practices.',audience:'Learners interested in laboratory science, careful procedures and diagnostic support work.',pathway:'Possible work or further study depends on qualification, employer criteria and relevant rules.',related:['dmlt','x-ray-technician','healthcare-diploma']},
@@ -85,12 +85,51 @@ function Shell({children}:{children:ReactNode}) {
   <header className="site-header"><div className="wrap headrow">
    <Link href="/" className="brand" aria-label="Parkar Institute home"><img src={logo} alt="Parkar Paramedical Institute logo"/><span><b>Parkar Paramedical Institute & Consultancy</b><small>LEARN • CARE • EXCEL</small></span></Link>
    <button className="mobile-toggle" data-testid="button-mobile-menu" aria-label={open?'Close navigation':'Open navigation'} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button>
-   <nav className={`nav ${open?'open':''}`} aria-label="Main navigation" onClick={e=>{if((e.target as HTMLElement).closest('a'))setOpen(false);}}>
-    <Link href="/">Home</Link><Link href="/about">About Us</Link>
-    <details><summary>Courses</summary><div className="drop"><Link href="/courses">All courses</Link>{courses.map(c=><Link key={c.slug} href={`/courses/${c.slug}`}>{c.name} — {c.full}</Link>)}</div></details>
-    <details><summary>Our Branches</summary><div className="drop"><Link href="/branches">All branches</Link>{branches.map(b=><Link key={b.slug} href={`/branches/${b.slug}`}>{b.place}</Link>)}</div></details>
-    <Link href="/admission-consultancy">Consultancy</Link><Link href="/gallery">Gallery</Link><Link href="/reviews">Reviews</Link><Link href="/contact">Contact</Link>
-   </nav>
+   
+<nav
+  className={`nav ${open ? 'open' : ''}`}
+  aria-label="Main navigation"
+  onClick={(e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  }}
+>
+  <Link href="/">Home</Link>
+  <Link href="/about">About Us</Link>
+
+  <div className="nav-dropdown">
+    <Link href="/courses" className="nav-dropdown-trigger">
+      Courses <span className="dropdown-arrow">▾</span>
+    </Link>
+    <div className="nav-dropdown-menu">
+      <Link href="/courses">All Courses</Link>
+      {courses.map((c) => (
+        <Link key={c.slug} href={`/courses/${c.slug}`}>
+          {c.name} — {c.full}
+        </Link>
+      ))}
+    </div>
+  </div>
+
+  <div className="nav-dropdown">
+    <Link href="/branches" className="nav-dropdown-trigger">
+      Our Branches <span className="dropdown-arrow">▾</span>
+    </Link>
+    <div className="nav-dropdown-menu">
+      <Link href="/branches">All Branches</Link>
+      {branches.map((b) => (
+        <Link key={b.slug} href={`/branches/${b.slug}`}>
+          {b.place}
+        </Link>
+      ))}
+    </div>
+  </div>
+
+  <Link href="/admission-consultancy">Consultancy</Link>
+  <Link href="/gallery">Gallery</Link>
+  <Link href="/reviews">Reviews</Link>
+  <Link href="/contact">Contact</Link>
+</nav>
+
    <div className="head-actions"><a className="btn btn-outline" href={phoneHref(phone)} aria-label="Call Parkar"><Phone size={16}/><span>Call</span></a><WhatsApp/></div>
   </div></header>
   {children}
@@ -98,17 +137,116 @@ function Shell({children}:{children:ReactNode}) {
   <WhatsApp className="btn btn-gold mobile-wa" message={homeMessage}>Ask Parkar</WhatsApp>
  </>;
 }
+
 function Footer() {
- return <footer className="footer"><div className="wrap">
-  <div className="footer-grid">
-   <div><div className="footer-brand"><img src={logo} alt="Parkar logo"/><div><strong>Parkar Paramedical<br/>Institute & Consultancy</strong><p style={{margin:'5px 0 0'}}>Learn • Care • Excel</p></div></div><p>Course information and admission guidance for students and families exploring healthcare education pathways across Gujarat.</p><p>GR reference: GJ/63/VG/01</p><WhatsApp className="btn btn-gold" message={homeMessage}>Enquire on WhatsApp</WhatsApp></div>
-   <div><h3>Explore</h3><div className="footer-links"><Link href="/about">About Us</Link><Link href="/courses">All Courses</Link><Link href="/branches">All Branches</Link><Link href="/admission-consultancy">Admission Consultancy</Link><Link href="/gallery">Gallery</Link><Link href="/reviews">Student Reviews</Link><Link href="/contact">Contact Us</Link></div></div>
-   <div><h3>Course pathways</h3><div className="footer-links">{categories.map(cat=><a key={cat} href="/courses">{cat}</a>)}<Link href="/courses/nios-class-10">NIOS Class 10</Link><Link href="/courses/nios-class-12">NIOS Class 12</Link></div></div>
-   <div><h3>Reach us</h3><div className="footer-links"><a href={phoneHref(phone)}>Call {phone}</a><a href={phoneHref(secondary)}>Call {secondary}</a><a href={`mailto:${email}`}>{email}</a><Link href="/branches/deesa">Deesa main branch</Link><p className="address">{address}</p><Link href="/privacy-policy">Privacy Policy</Link><Link href="/terms-and-conditions">Terms and Conditions</Link><Link href="/disclaimer">Disclaimer</Link></div></div>
-  </div>
-  <div className="footer-bottom"><span>© {new Date().getFullYear()} Parkar Paramedical Institute & Consultancy</span><span>GJ/63/VG/01 is a supplied institute reference, not course accreditation.</span></div>
- </div></footer>;
+  return (
+    <footer className="footer">
+      <div className="wrap">
+        <div className="footer-grid">
+          <div>
+            <div className="footer-brand">
+              <img src={logo} alt="Parkar logo" />
+              <div>
+                <strong>
+                  Parkar Paramedical
+                  <br />
+                  Institute &amp; Consultancy
+                </strong>
+                <p style={{ margin: '5px 0 0' }}>
+                  Learn • Care • Excel
+                </p>
+              </div>
+            </div>
+
+            <p>
+              Course information and admission guidance for students and
+              families exploring healthcare education pathways across Gujarat.
+            </p>
+
+            <p>
+              Learn • Care • Excel — Guiding Students Towards a Brighter Future.
+            </p>
+
+            <WhatsApp
+              className="btn btn-gold"
+              message={homeMessage}
+            >
+              Enquire on WhatsApp
+            </WhatsApp>
+          </div>
+
+          <div>
+            <h3>Explore</h3>
+            <div className="footer-links">
+              <Link href="/about">About Us</Link>
+              <Link href="/courses">All Courses</Link>
+              <Link href="/branches">All Branches</Link>
+              <Link href="/admission-consultancy">
+                Admission Consultancy
+              </Link>
+              <Link href="/gallery">Gallery</Link>
+              <Link href="/reviews">Student Reviews</Link>
+              <Link href="/contact">Contact Us</Link>
+            </div>
+          </div>
+
+          <div>
+            <h3>Course pathways</h3>
+            <div className="footer-links">
+              {categories.map((cat) => (
+                <a key={cat} href="/courses">
+                  {cat}
+                </a>
+              ))}
+              <Link href="/courses/nios-class-10">NIOS Class 10</Link>
+              <Link href="/courses/nios-class-12">NIOS Class 12</Link>
+            </div>
+          </div>
+
+          <div>
+            <h3>Reach us</h3>
+            <div className="footer-links">
+              <a href={phoneHref(phone)}>Call {phone}</a>
+              <a href={phoneHref(secondary)}>Call {secondary}</a>
+              <a href={`mailto:${email}`}>{email}</a>
+              <Link href="/branches/deesa">Deesa main branch</Link>
+              <p className="address">{address}</p>
+              <Link href="/privacy-policy">Privacy Policy</Link>
+              <Link href="/terms-and-conditions">
+                Terms and Conditions
+              </Link>
+              <Link href="/disclaimer">Disclaimer</Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <span>
+            © {new Date().getFullYear()} Parkar Paramedical Institute
+            &amp; Consultancy
+          </span>
+
+          <span className="footer-tagline">
+            Learn • Care • Excel
+          </span>
+
+          <span className="developer-credit">
+            Designed &amp; Developed by{' '}
+            <a
+              href="https://www.darshanmediahouse.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Visit Darshan Media House website"
+            >
+              Darshan Media House, Deesa
+            </a>
+          </span>
+        </div>
+      </div>
+    </footer>
+  );
 }
+
 function Breadcrumb({items}:{items:{label:string;href?:string}[]}) { return <div className="breadcrumbs"><Link href="/">Home</Link>{items.map((it,i)=><span key={i}> <ChevronRight size={13} style={{verticalAlign:'middle'}}/> {it.href?<Link href={it.href}>{it.label}</Link>:it.label}</span>)}</div>; }
 function PageHero({eyebrow,title,description,crumbs=[]}:{eyebrow:string;title:string;description:string;crumbs?:{label:string;href?:string}[]}) { return <div className="page-hero"><div className="wrap"><Breadcrumb items={crumbs}/><div className="eyebrow">{eyebrow}</div><h1>{title}</h1><p className="lead" style={{maxWidth:760}}>{description}</p></div></div>; }
 function SectionHead({kicker,title,children}:{kicker?:string;title:string;children?:ReactNode}) { return <div className="section-head">{kicker&&<div className="eyebrow">{kicker}</div>}<h2>{title}</h2>{children&&<p>{children}</p>}</div>; }
@@ -144,11 +282,57 @@ function HomePage() {
   <section className="section soft"><div className="wrap grid-2"><div><div className="eyebrow">Admission consultancy</div><h2>Looking for admission at another college or institute?</h2><p className="prose-copy">Parkar also assists students exploring admission opportunities beyond its own branches. Discuss your education background, preferred course and location with us. We can help you identify questions to ask and requirements to verify. The receiving institution makes the final admission decision.</p><BtnLink href="/admission-consultancy">Explore admission consultancy <ArrowRight size={15}/></BtnLink></div><div className="steps">{[['01','Tell us about yourself','Share your last qualification and preferred course.'],['02','Discuss your options','Talk through possible institutions and requirements to verify.'],['03','Understand the process','Ask about applications, documentation and admission conditions.'],['04','Take the next step','Contact the appropriate institution and follow its process.']].map(([num,title,body])=><div className="card" key={num}><div className="step-num">{num}</div><h3>{title}</h3><p>{body}</p></div>)}</div></div></section>
   <section className="section"><div className="wrap"><SectionHead kicker="Our branches" title="Find your nearest Parkar branch">Nine listed locations across Gujarat. Explore each location and contact the team to confirm courses, address and admission details before visiting.</SectionHead><div className="branch-grid">{branches.map(b=><BranchCard key={b.slug} branch={b}/>)}</div></div></section>
   <section className="section soft"><div className="wrap"><SectionHead kicker="Career pathways" title="Explore potential career pathways">Healthcare education can open different possibilities depending on the qualification, training, practical experience and applicable professional requirements. Completing one course does not qualify a learner for every role.</SectionHead><div className="career-grid">{[['Nursing and patient care','Pathways depend on a recognized nursing qualification and applicable registration.'],['Laboratory and diagnostic services','Laboratory support roles depend on the specific award and employer criteria.'],['Healthcare assistance','Assistant roles have defined support responsibilities and require appropriate supervision.'],['Dental and clinical support','Support work differs from licensed dental or clinical practice.'],['Further healthcare education','Progression depends on eligibility and the receiving institution.'],['International medical education guidance','Recognition and licensing requirements must be verified with official sources.']].map(([t,d])=><article className="card" key={t}><div className="icon-box"><BriefcaseMedical/></div><h3>{t}</h3><p>{d}</p></article>)}</div><p style={{marginTop:18,fontWeight:700,color:'#082b59'}}>Career Guidance and Placement Assistance — Contact Us for Course-Specific Details.</p></div></section>
-  <section className="section"><div className="wrap grid-2"><div><div className="eyebrow">Learning and student life</div><h2>A glimpse into learning and student life</h2><p className="prose-copy">Explore spaces reserved for authentic institute photographs, once supplied by Parkar. Current gallery tiles are explicitly illustrative placeholders and do not depict Parkar students, branches or activities.</p><BtnLink href="/gallery">View full gallery <ArrowRight size={16}/></BtnLink></div><div className="gallery-grid" style={{gridTemplateColumns:'1fr 1fr'}}>{galleryItems.slice(0,4).map((g,i)=><div key={g.title} className="illustrative"><span className="placeholder-label">Illustrative placeholder<br/>Replace with authentic Parkar image</span></div>)}</div></div></section>
-  <section className="section soft"><div className="wrap grid-2"><div><div className="eyebrow">Student and parent experiences</div><h2>Your feedback matters</h2><p className="prose-copy">We welcome feedback from students and families. Genuine review content has not yet been supplied, so these review areas remain clearly marked placeholders rather than invented experiences.</p><BtnLink href="/reviews">Explore feedback page</BtnLink></div><div className="review-placeholder"><div className="review-mark"><Quote/></div><strong>Feedback slot — awaiting authentic submission</strong><span style={{fontSize:13,marginTop:7}}>No name, quote, rating or date provided.</span></div></div></section>
+  <section className="section"><div className="wrap grid-2"><div><div className="eyebrow">Learning and student life</div><h2>A glimpse into learning and student life</h2><p className="prose-copy">Explore spaces reserved for authentic institute photographs, once supplied by Parkar. Current gallery tiles are explicitly illustrative placeholders and do not depict Parkar students, branches or activities.</p><BtnLink href="/gallery">View full gallery <ArrowRight size={16}/></BtnLink></div>
+  
+  
+<div className="gallery-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+  
+{[
+  {
+    title: 'Classroom',
+    src: '/images/classroom.jpg',
+  },
+  {
+    title: 'Students',
+    src: '/images/students.jpg',
+  },
+  {
+    title: 'Practical Training',
+    src: '/images/practical-training.jpg',
+  },
+  {
+    title: 'Healthcare Lab',
+    src: '/images/healthcare-lab.jpg',
+  },
+].map((photo) => (
+  <div
+    key={photo.title}
+    className="illustrative"
+    style={{ padding: 0, overflow: 'hidden' }}
+  >
+    <img
+      src={photo.src}
+      alt={photo.title}
+      loading="lazy"
+      style={{
+        display: 'block',
+        width: '100%',
+        height: '180px',
+        objectFit: 'cover',
+        borderRadius: 'inherit',
+      }}
+    />
+  </div>
+))}
+
+</div>
+
+
+  </div></section>
+  <section className="section soft"><div className="wrap grid-2"><div><div className="eyebrow">Student and parent experiences</div><h2>Your feedback matters</h2><p className="prose-copy">We welcome feedback from students and families. Genuine review content has not yet been supplied, so these review areas remain clearly marked placeholders rather than invented experiences.</p><BtnLink href="/reviews">Explore feedback page</BtnLink></div><div className="review-placeholder"><div className="review-mark"><Quote/></div><strong>Feedback slot — awaiting authentic submission</strong><span style={{fontSize:13,marginTop:7}}></span></div></div></section>
   <section className="section"><div className="wrap"><SectionHead kicker="Frequently asked questions" title="Helpful answers before you enquire">Requirements and availability vary by course and institution. Our team can help you find the right details to verify.</SectionHead><FaqList/></div></section>
   <section className="cta-band"><div className="wrap"><div className="eyebrow" style={{color:'#f1d47b'}}>Your next step</div><h2>Ready to take the next step towards your healthcare career?</h2><p>Tell us about your education background and the course you are interested in. Contact Parkar for guidance on eligibility, admission requirements and available opportunities.</p><div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:22}}><WhatsApp message={homeMessage}>Enquire on WhatsApp</WhatsApp><a className="btn btn-white" href={phoneHref(phone)}><Phone size={16}/>Call our team</a></div></div></section>
-  <section className="section"><div className="wrap grid-2"><div><div className="eyebrow">Visit or contact Parkar — Deesa</div><h2>We’re here to help you understand your options</h2><p className="address"><strong>Parkar Paramedical Institute & Consultancy</strong><br/>{address}</p><p>GR reference: GJ/63/VG/01. This is a supplied institute reference and does not establish accreditation for any listed course.</p><div style={{display:'flex',gap:10,flexWrap:'wrap'}}><a className="btn btn-navy" href={phoneHref(phone)}><Phone size={16}/>Call now</a><WhatsApp message={homeMessage}>WhatsApp us</WhatsApp><a className="btn btn-outline" href={`mailto:${email}`}><Mail size={16}/>Email us</a><a className="btn btn-outline" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={16}/>Get directions</a></div></div><div className="card"><h3>Talk with our team</h3><div className="contact-card"><div className="icon-box"><UserRound/></div><div><strong>Sureshbhai Shrimali</strong><br/><a href={phoneHref(phone)}>{phone}</a></div></div><hr style={{border:0,borderTop:'1px solid #e5ebf0',margin:'16px 0'}}/><div className="contact-card"><div className="icon-box"><UserRound/></div><div><strong>Jitubhai Barot</strong><br/><a href={phoneHref(secondary)}>{secondary}</a></div></div></div></div></section>
+  <section className="section"><div className="wrap grid-2"><div><div className="eyebrow">Visit or contact Parkar — Deesa</div><h2>We’re here to help you understand your options</h2><p className="address"><strong>Parkar Paramedical Institute & Consultancy</strong><br/>{address}</p><p>GR reference: GJ/63/VG/01. </p><div style={{display:'flex',gap:10,flexWrap:'wrap'}}><a className="btn btn-navy" href={phoneHref(phone)}><Phone size={16}/>Call now</a><WhatsApp message={homeMessage}>WhatsApp us</WhatsApp><a className="btn btn-outline" href={`mailto:${email}`}><Mail size={16}/>Email us</a><a className="btn btn-outline" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={16}/>Get directions</a></div></div><div className="card"><h3>Talk with our team</h3><div className="contact-card"><div className="icon-box"><UserRound/></div><div><strong>Sureshbhai Shrimali</strong><br/><a href={phoneHref(phone)}>{phone}</a></div></div><hr style={{border:0,borderTop:'1px solid #e5ebf0',margin:'16px 0'}}/><div className="contact-card"><div className="icon-box"><UserRound/></div><div><strong>Jitubhai Barot</strong><br/><a href={phoneHref(secondary)}>{secondary}</a></div></div></div></div></section>
  </main>;
 }
 function CoursesPage() {
@@ -178,17 +362,19 @@ function CoursePage() {
   <h2>Who should explore {c.name}?</h2><p>{c.audience} Compare the exact qualification and your preferred future path before making a decision.</p>
   {c.slug==='bhms'||c.slug==='bams'||c.slug==='mbbs-abroad'?<div className="notice"><strong>Professional degree guidance:</strong> Confirm institution recognition, current entrance eligibility, professional registration and applicable medical education rules through official sources. Admission guidance is not a recognition or practice decision.</div>:null}
   {c.slug.startsWith('nios')?<div className="notice">NIOS subject choices and current eligibility should be checked directly with NIOS. Before selecting subjects, verify the requirements of the specific further course you intend to pursue.</div>:null}
-  {c.slug==='si-course'?<div className="notice">The exact full form and nature of “SI Course” are pending confirmation. Parkar will need to confirm the course identity before detailed claims can be made.</div>:null}
+  {c.slug==='si-course'?<div className="notice">SI Course – Learn, Grow & Build Your Future.</div>:null}
   <h2>Frequently asked questions</h2><FaqList items={courseFaqs}/>
- </div><aside className="side-panel"><div className="card"><span className="badge">Personal guidance</span><h3>Ask about {c.name}</h3><p>Tell us your qualification and preferred location. We can help you understand questions to confirm with the institution.</p><WhatsApp message={courseMessage(c.name)}>Enquire about {c.name}</WhatsApp><div style={{marginTop:14}}><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a></div><div className="gold-line"/><strong>Career Guidance and Placement Assistance — Contact Us for Course-Specific Details.</strong><p style={{marginTop:10}}>No job guarantee is stated.</p></div></aside></div></section>
+ </div><aside className="side-panel"><div className="card"><span className="badge">Personal guidance</span><h3>Ask about {c.name}</h3><p>Tell us your qualification and preferred location. We can help you understand questions to confirm with the institution.</p><WhatsApp message={courseMessage(c.name)}>Enquire about {c.name}</WhatsApp><div style={{marginTop:14}}><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a></div><div className="gold-line"/><strong>Career Guidance and Placement Assistance — Contact Us for Course-Specific Details.</strong><p style={{marginTop:10}}>Guiding You Towards a Brighter Future.</p></div></aside></div></section>
  <section className="section soft"><div className="wrap"><SectionHead title="Related courses">Explore related pathways and compare their course-specific entry requirements.</SectionHead><div className="course-grid">{related.map(item=><CourseCard key={item.slug} course={item}/>)}</div></div></section>
  <section className="cta-band"><div className="wrap"><h2>Need help understanding {c.name}?</h2><p>Share your last qualification, preferred location and questions. The institution confirms final eligibility and admission.</p><WhatsApp message={courseMessage(c.name)}>Ask about {c.name}</WhatsApp></div></section></main>;
 }
-function AboutPage() { return <main><PageHero eyebrow="About Parkar" title="A steady guide for students and families" description="Parkar Paramedical Institute & Consultancy supports people exploring healthcare education pathways, course information and admission processes in Gujarat." crumbs={[{label:'About Us'}]}/><section className="section"><div className="wrap grid-2"><div className="prose-copy"><div className="eyebrow">Our story</div><h2>Education guidance grounded in clear conversations</h2><p>Parkar is based in Deesa, Banaskantha, Gujarat, and has more than 10 years of experience in the field. Across nine listed branch locations, the organization provides institute services and admission consultancy for students comparing healthcare education options.</p><p>Students and parents can discuss course interests, prior qualifications, locations and application questions. When opportunities involve another institution, that institution determines its eligibility, recognition and admissions.</p><p>Our aim is to make unfamiliar course pathways easier to understand—not to replace official advice or promise outcomes.</p><div className="notice">GR reference: GJ/63/VG/01. This supplied institute reference is not evidence of accreditation or recognition for every listed course.</div></div><div className="card soft"><div className="icon-box"><Landmark/></div><h3>Parkar at a glance</h3><ul className="info-list"><li><strong>Location:</strong> Deesa, Banaskantha, Gujarat</li><li><strong>Experience:</strong> More than 10 years in the field</li><li><strong>Network:</strong> Nine listed locations</li><li><strong>Tagline:</strong> Learn • Care • Excel</li><li><strong>Services:</strong> Course guidance, institute services and admission consultancy</li></ul></div></div></section>
+function AboutPage() { return <main><PageHero eyebrow="About Parkar" title="A steady guide for students and families" description="Parkar Paramedical Institute & Consultancy supports people exploring healthcare education pathways, course information and admission processes in Gujarat." crumbs={[{label:'About Us'}]}/><section className="section"><div className="wrap grid-2"><div className="prose-copy"><div className="eyebrow">Our story</div><h2>Education guidance grounded in clear conversations</h2><p>Parkar is based in Deesa, Banaskantha, Gujarat, and has more than 10 years of experience in the field. Across nine listed branch locations, the organization provides institute services and admission consultancy for students comparing healthcare education options.</p><p>Students and parents can discuss course interests, prior qualifications, locations and application questions. When opportunities involve another institution, that institution determines its eligibility, recognition and admissions.</p><p>Our aim is to make unfamiliar course pathways easier to understand—not to replace official advice or promise outcomes.</p><div className="notice"> Guiding Aspirations. Supporting Education. Building Healthcare Careers.
+
+Parkar Paramedical Institute & Consultancy is committed to helping students explore educational opportunities and make informed decisions about their future.</div></div><div className="card soft"><div className="icon-box"><Landmark/></div><h3>Parkar at a glance</h3><ul className="info-list"><li><strong>Location:</strong> Deesa, Banaskantha, Gujarat</li><li><strong>Experience:</strong> More than 10 years in the field</li><li><strong>Network:</strong> Nine listed locations</li><li><strong>Tagline:</strong> Learn • Care • Excel</li><li><strong>Services:</strong> Course guidance, institute services and admission consultancy</li></ul></div></div></section>
  <section className="section soft"><div className="wrap grid-2"><article className="card"><div className="icon-box"><HeartPulse/></div><h3>Our mission</h3><p>To help students and families understand healthcare education pathways and make informed decisions about courses, institutions and future opportunities.</p></article><article className="card"><div className="icon-box"><Award/></div><h3>Our vision</h3><p>To become a trusted education guidance destination for aspiring healthcare professionals across Gujarat.</p></article></div></section>
  <section className="section"><div className="wrap"><SectionHead title="Guidance that starts with your goals">We encourage every learner to verify the facts that matter before choosing a program.</SectionHead><div className="grid-3">{[['Understand the course','Explore course purpose, award and intended learning.'],['Check the institution','Verify recognition, eligibility and current admission process directly.'],['Choose your next step','Ask about documents, location and timelines before committing.']].map(([title,body])=><div className="card" key={title}><div className="icon-box"><ShieldCheck/></div><h3>{title}</h3><p>{body}</p></div>)}</div></div></section>
- <section className="section soft"><div className="wrap grid-2"><div><SectionHead title="Meet the management">For course questions and admission guidance, contact the team directly.</SectionHead></div><div className="card"><h3>Sureshbhai Shrimali</h3><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a><hr style={{border:0,borderTop:'1px solid #e5ebf0',margin:'18px 0'}}/><h3>Jitubhai Barot</h3><a className="link-arrow" href={phoneHref(secondary)}><Phone size={15}/>Call {secondary}</a><p style={{marginTop:16}}>No biographies, qualifications or owner photographs have been supplied.</p></div></div></section><section className="cta-band"><div className="wrap"><h2>Let’s discuss your next step</h2><p>Tell us what you are considering and we will help you understand what details to verify.</p><WhatsApp message="Hello Parkar Team. I would like to learn more about Parkar and discuss healthcare education guidance.">Speak with Parkar</WhatsApp></div></section></main>; }
-function BranchesPage() { return <main><PageHero eyebrow="Our locations" title="Nine listed Parkar branch locations" description="Explore each location and contact the team to confirm address, current services, course availability and admission details before you travel." crumbs={[{label:'Our Branches'}]}/><section className="section"><div className="wrap"><div className="branch-grid">{branches.map(b=><BranchCard key={b.slug} branch={b}/>)}</div><div className="notice" style={{marginTop:24}}>Only the Deesa address is verified for directions. Other branch pages intentionally show area names without unconfirmed addresses or map pins.</div></div></section></main>; }
+ <section className="section soft"><div className="wrap grid-2"><div><SectionHead title="Meet the management">For course questions and admission guidance, contact the team directly.</SectionHead></div><div className="card"><h3>Sureshbhai Shrimali</h3><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a><hr style={{border:0,borderTop:'1px solid #e5ebf0',margin:'18px 0'}}/><h3>Jitubhai Barot</h3><a className="link-arrow" href={phoneHref(secondary)}><Phone size={15}/>Call {secondary}</a><p style={{marginTop:16}}>Committed to Education. Dedicated to Your Future</p></div></div></section><section className="cta-band"><div className="wrap"><h2>Let’s discuss your next step</h2><p>Tell us what you are considering and we will help you understand what details to verify.</p><WhatsApp message="Hello Parkar Team. I would like to learn more about Parkar and discuss healthcare education guidance.">Speak with Parkar</WhatsApp></div></section></main>; }
+function BranchesPage() { return <main><PageHero eyebrow="Our locations" title="Nine listed Parkar branch locations" description="Explore each location and contact the team to confirm address, current services, course availability and admission details before you travel." crumbs={[{label:'Our Branches'}]}/><section className="section"><div className="wrap"><div className="branch-grid">{branches.map(b=><BranchCard key={b.slug} branch={b}/>)}</div><div className="notice" style={{marginTop:24}}>For other branch enquiries, please visit our Contact Us page and call us for details.</div></div></section></main>; }
 function BranchPage() {
  const {slug=''}=useParams();const b=branches.find(x=>x.slug===slug);if(!b)return <NotFound/>;
  const branchFaqs:[string,string][]=[
@@ -198,7 +384,7 @@ function BranchPage() {
   ['What should I ask before applying?','Confirm the course award, provider, eligibility, duration, fees, recognition, practical arrangements and required documents directly with the relevant institution.'],
   ['Can parents contact the team?','Yes. Students and parents are welcome to discuss course information and next steps by phone or WhatsApp.']
  ];
- return <main><PageHero eyebrow="Listed Parkar location" title={b.title} description={b.intro} crumbs={[{label:'Our Branches',href:'/branches'},{label:b.place}]}/><section className="section"><div className="wrap grid-2"><div><SectionHead kicker="Your local inquiry" title={`Education guidance for ${b.place}`}/><div className="prose-copy"><p>{b.intro}</p><p>{b.focus}</p><p>Parkar supports students and parents with course information across nursing, paramedical, laboratory and diagnostic, healthcare assistant, medical degree guidance and open-schooling pathways. The exact course and institution availability for this location must be confirmed with the team.</p><p>{b.local}</p></div><WhatsApp message={branchMessage(b.title)}>Enquire about {b.place}</WhatsApp></div><div className="card"><div className="icon-box"><MapPin/></div><h3>Contact about this location</h3><p>Ask about current course options, branch arrangements and admission guidance.</p><WhatsApp message={branchMessage(b.title)}>Message the team</WhatsApp><div style={{marginTop:15}}><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a></div>{b.slug==='deesa'?<><div className="gold-line"/><p className="address"><strong>Verified Deesa address</strong><br/>{address}</p><a className="link-arrow" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={15}/>Get directions</a></>:<div className="notice" style={{marginTop:17}}>Address and map pin not yet verified for this location. Please call before visiting.</div>}</div></div></section>
+ return <main><PageHero eyebrow="Listed Parkar location" title={b.title} description={b.intro} crumbs={[{label:'Our Branches',href:'/branches'},{label:b.place}]}/><section className="section"><div className="wrap grid-2"><div><SectionHead kicker="Your local inquiry" title={`Education guidance for ${b.place}`}/><div className="prose-copy"><p>{b.intro}</p><p>{b.focus}</p><p>Parkar supports students and parents with course information across nursing, paramedical, laboratory and diagnostic, healthcare assistant, medical degree guidance and open-schooling pathways. The exact course and institution availability for this location must be confirmed with the team.</p><p>{b.local}</p></div><WhatsApp message={branchMessage(b.title)}>Enquire about {b.place}</WhatsApp></div><div className="card"><div className="icon-box"><MapPin/></div><h3>Contact about this location</h3><p>Ask about current course options, branch arrangements and admission guidance.</p><WhatsApp message={branchMessage(b.title)}>Message the team</WhatsApp><div style={{marginTop:15}}><a className="link-arrow" href={phoneHref(phone)}><Phone size={15}/>Call {phone}</a></div>{b.slug==='deesa'?<><div className="gold-line"/><p className="address"><strong>Verified Deesa address</strong><br/>{address}</p><a className="link-arrow" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={15}/>Get directions</a></>:<div className="notice" style={{marginTop:17}}>For branch details and directions, please contact us. We're happy to assist you!</div>}</div></div></section>
  <section className="section soft"><div className="wrap grid-2"><div><SectionHead title="Questions about this branch?">The team can help clarify your inquiry, while the course provider confirms final program details.</SectionHead><FaqList items={branchFaqs}/></div><div className="card"><h3>Explore course options</h3><p>Browse the course directory, then ask which options can be confirmed for {b.place}.</p><BtnLink href="/courses">View all courses <ArrowRight size={15}/></BtnLink><div className="gold-line"/><h3>Related pathways to explore</h3>{courses.slice(0,4).map(c=><p key={c.slug}><Link className="link-arrow" href={`/courses/${c.slug}`}>{c.name} <ArrowRight size={14}/></Link></p>)}</div></div></section>
  <section className="section"><div className="wrap"><SectionHead title="Other Parkar locations">If another location suits your inquiry, contact the team to confirm current details.</SectionHead><div className="branch-grid">{branches.filter(x=>x.slug!==b.slug).slice(0,3).map(x=><BranchCard key={x.slug} branch={x}/>)}</div></div></section><section className="cta-band"><div className="wrap"><h2>Ask about the {b.place} location</h2><p>Tell us your course interest and preferred location. Availability and final admission are confirmed by the institution.</p><WhatsApp message={branchMessage(b.title)}>Enquire about this branch</WhatsApp></div></section></main>;
 }
@@ -206,7 +392,7 @@ function ConsultancyPage() {
  return <main><PageHero eyebrow="Admission consultancy" title="Make your next education decision with clarity" description="Parkar helps students explore healthcare admission opportunities at its own listed branches and other suitable institutions. Guidance supports your research; the receiving institution and relevant authorities determine eligibility, recognition and admission." crumbs={[{label:'Admission Consultancy'}]}/>
   <section className="section"><div className="wrap grid-2"><div className="prose-copy"><h2>Guidance that starts with your situation</h2><p>Choosing an education pathway often raises practical questions: Which course fits my prior qualification? What should I ask a college? How do I compare institutions or apply from outside my home district?</p><p>Parkar can discuss your course interests, preferred location and education background, and help you identify information to verify. This service may relate to a Parkar branch or an external institution, including international medical education options where relevant.</p><p>Consultancy is guidance, not a promise of admission, recognition, eligibility or professional registration. Always obtain current written details from the institution and official authorities.</p><WhatsApp message="Hello Parkar Team. I am looking for admission consultancy. My last qualification is [qualification] and I am interested in [course]. Please guide me on suitable options and requirements to verify.">Get personalised admission guidance</WhatsApp></div><div className="card soft"><div className="icon-box"><ClipboardList/></div><h3>What we can discuss</h3><ul className="info-list"><li>Course selection guidance based on your interests</li><li>Eligibility-related questions to verify with providers</li><li>Institution selection considerations</li><li>Application steps and documentation questions</li><li>Options for students outside their home district</li><li>Careful questions for international medical education</li></ul></div></div></section>
   <section className="section soft"><div className="wrap"><SectionHead title="A four-step admission conversation">The process helps you prepare and ask informed questions; the institution controls its own application and decision process.</SectionHead><div className="steps">{[['01','Tell us about yourself','Share your last qualification, course interest and preferred location.'],['02','Discuss your options','Explore possible pathways and requirements that need confirmation.'],['03','Understand the process','Ask about applications, documents and institution-specific conditions.'],['04','Take your next step','Contact the appropriate institution and follow its current admission process.']].map(([n,t,d])=><article className="card" key={n}><div className="step-num">{n}</div><h3>{t}</h3><p>{d}</p></article>)}</div></div></section>
-  <section className="section"><div className="wrap grid-2"><div><SectionHead title="Start an inquiry">Use the short form to prepare a readable WhatsApp message. It is not stored or sent until you choose to send it in WhatsApp.</SectionHead><div className="notice">Please do not include sensitive documents or confidential information in this form.</div></div><div className="card"><FormInquiry/></div></div></section>
+  <section className="section"><div className="wrap grid-2"><div><SectionHead title="Start an inquiry">Use the short form to prepare a readable WhatsApp message. It is not stored or sent until you choose to send it in WhatsApp.</SectionHead><div className="notice">Please share your details, and our team will be happy to assist you with your enquiry.</div></div><div className="card"><FormInquiry/></div></div></section>
   <section className="section soft"><div className="wrap"><SectionHead title="Admission consultancy questions"/><FaqList items={[
    ['Does Parkar guarantee admission?','No. Parkar provides guidance. The receiving institution makes admission decisions and authorities determine eligibility and recognition.'],
    ['Can I ask about colleges outside Gujarat?','You can discuss your interests with the team. Verify the current course, institution and admission rules directly with the provider.'],
@@ -217,30 +403,261 @@ function ConsultancyPage() {
 }
 
 const galleryItems = [
- {title:'Institute and classrooms',category:'Institute and Classrooms'},
- {title:'A learning environment',category:'Institute and Classrooms'},
- {title:'Practical learning',category:'Practical Training'},
- {title:'Skills practice area',category:'Practical Training'},
- {title:'Internship moments',category:'Internship'},
- {title:'Clinical exposure',category:'Clinical Exposure'},
- {title:'Student activities',category:'Student Activities'},
- {title:'Interview preparation',category:'Interviews'},
- {title:'Career guidance conversation',category:'Career Guidance'},
- {title:'Institute event',category:'Events and Achievements'},
- {title:'Learning together',category:'Student Activities'},
- {title:'Celebrating a milestone',category:'Events and Achievements'}
+  { title: 'Institute and classrooms', category: 'Institute and Classrooms', image: '/images/classroom.jpg' },
+  { title: 'A learning environment', category: 'Institute and Classrooms', image: '/images/students.jpg' },
+  { title: 'Practical learning', category: 'Practical Training', image: '/images/practical-training.jpg' },
+  { title: 'Skills practice area', category: 'Practical Training', image: '/images/nursing-skills-lab.jpg' },
+  { title: 'Internship moments', category: 'Internship', image: '/images/paramedical-classroom.jpg' },
+  { title: 'Clinical exposure', category: 'Clinical Exposure', image: '/images/patient-care-training.jpg' },
+  { title: 'Student activities', category: 'Student Activities', image: '/images/students.jpg' },
+  { title: 'Interview preparation', category: 'Interviews', image: '/images/admission-counselling.jpg' },
+  { title: 'Career guidance conversation', category: 'Career Guidance', image: '/images/medical-studies.jpg' },
+  { title: 'Institute event', category: 'Events and Achievements', image: '/images/medical-laboratory.jpg' },
+  { title: 'Learning together', category: 'Student Activities', image: '/images/medical-studies.jpg' },
+  { title: 'Celebrating a milestone', category: 'Events and Achievements', image: '/images/clinical-simulation.jpg' },
 ];
 const galleryCategories=['All','Institute and Classrooms','Practical Training','Internship','Clinical Exposure','Student Activities','Interviews','Career Guidance','Events and Achievements'];
+
 function GalleryPage() {
- const [filter,setFilter]=useState('All');const [active,setActive]=useState<typeof galleryItems[number]|null>(null);
- const list=filter==='All'?galleryItems:galleryItems.filter(g=>g.category===filter);
- return <main><PageHero eyebrow="Gallery" title="A place for Parkar’s real stories" description="Authentic photographs of institute spaces, learning and activities have not been supplied yet. Every tile below is an explicitly illustrative placeholder to be replaced with a genuine Parkar image." crumbs={[{label:'Gallery'}]}/><section className="section"><div className="wrap"><div className="notice" style={{marginBottom:22}}>These visual placeholders do not depict Parkar students, branches or activities. Replace each with an authentic image and verified caption before publishing as a real activity photograph.</div><div className="filter-row">{galleryCategories.map(c=><button key={c} className={`filter-pill ${filter===c?'active':''}`} onClick={()=>setFilter(c)}>{c}</button>)}</div><div className="gallery-grid">{list.map((g,i)=><button className="gallery-tile" onClick={()=>setActive(g)} key={g.title} data-testid={`button-gallery-${i}`}><div className="illustrative"><span className="placeholder-label">Illustrative placeholder<br/>Replace with authentic Parkar image</span></div><strong>{g.title}</strong><small>{g.category} · placeholder</small></button>)}</div><div style={{marginTop:28}}><WhatsApp message="Hello Parkar Team. I would like to enquire about your institute activities and student learning.">Ask Parkar a question</WhatsApp></div></div></section>{active&&<div className="lightbox" role="dialog" aria-modal="true" aria-label={active.title} onClick={()=>setActive(null)}><div className="lightbox-panel" onClick={e=>e.stopPropagation()}><button className="close-btn" aria-label="Close image view" onClick={()=>setActive(null)}><X/></button><div className="illustrative"><span className="placeholder-label">Illustrative placeholder<br/>Replace with authentic Parkar image</span></div><h3>{active.title}</h3><p>{active.category} · Placeholder only; no authentic Parkar image supplied.</p></div></div>}</main>;
+  const [filter, setFilter] = useState('All');
+  const [active, setActive] =
+    useState<(typeof galleryItems)[number] | null>(null);
+
+  const list =
+    filter === 'All'
+      ? galleryItems
+      : galleryItems.filter((g) => g.category === filter);
+
+  return (
+    <main>
+      <PageHero
+        eyebrow="Gallery"
+        title="A place for Parkar’s real stories"
+        description="Authentic photographs of institute spaces, learning and activities have not been supplied yet. Every tile below is an explicitly illustrative placeholder to be replaced with a genuine Parkar image."
+        crumbs={[{ label: 'Gallery' }]}
+      />
+
+      <section className="section">
+        <div className="wrap">
+          <div className="notice" style={{ marginBottom: 22 }}>
+            A Glimpse into Our Learning Journey &amp; Student Community.
+          </div>
+
+          <div className="filter-row">
+            {galleryCategories.map((c) => (
+              <button
+                key={c}
+                className={`filter-pill ${filter === c ? 'active' : ''}`}
+                onClick={() => setFilter(c)}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+
+          <div className="gallery-grid">
+            {list.map((g, i) => (
+              <button
+                type="button"
+                className="gallery-tile"
+                onClick={() => setActive(g)}
+                key={g.title}
+                data-testid={`button-gallery-${i}`}
+                aria-label={`View image: ${g.title}`}
+              >
+                <div className="gallery-image-frame">
+                  <img
+                    src={g.image}
+                    alt={g.title}
+                    className="gallery-image"
+                    loading="lazy"
+                  />
+                </div>
+
+                <strong>{g.title}</strong>
+                <small>{g.category}</small>
+              </button>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 28 }}>
+            <WhatsApp message="Hello Parkar Team. I would like to enquire about your institute activities and student learning.">
+              Ask Parkar a question
+            </WhatsApp>
+          </div>
+        </div>
+      </section>
+
+      {active && (
+        <div
+          className="lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={active.title}
+          onClick={() => setActive(null)}
+        >
+          <div
+            className="lightbox-panel"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="close-btn"
+              aria-label="Close image view"
+              onClick={() => setActive(null)}
+            >
+              <X />
+            </button>
+
+            <div className="lightbox-image-frame">
+              <img
+                src={active.image}
+                alt={active.title}
+                className="lightbox-image"
+              />
+            </div>
+
+            <h3>{active.title}</h3>
+            <p>{active.category}</p>
+          </div>
+        </div>
+      )}
+    </main>
+  );
 }
+
+
 function ReviewsPage() {
- return <main><PageHero eyebrow="Student and parent experiences" title="Feedback belongs to the people who experienced it" description="We welcome feedback from students and families. No authentic review text, names, dates, ratings or review totals were supplied, so this page contains clearly marked replaceable feedback slots." crumbs={[{label:'Student Reviews'}]}/><section className="section"><div className="wrap"><div className="notice" style={{marginBottom:22}}>Each card below is a neutral placeholder only. It is not a testimonial, endorsement, rating or review. Replace with genuine feedback only after obtaining appropriate permission.</div><div className="review-grid">{Array.from({length:12},(_,i)=><div className="review-placeholder" key={i} data-testid={`review-slot-${i+1}`}><div className="review-mark"><UserRound size={19}/></div><strong>Feedback slot {String(i+1).padStart(2,'0')}</strong><span style={{fontSize:13,marginTop:7}}>Awaiting genuine student or parent feedback</span><span style={{fontSize:11,marginTop:5}}>No name · quote · rating · date</span></div>)}</div><div className="card soft" style={{marginTop:28}}><h3>Share your experience</h3><p>We have not been provided a separate review-submission system. Contact Parkar if you would like to share feedback; it will not be published without appropriate permission.</p><WhatsApp message="Hello Parkar Team. I would like to share feedback about my experience. Please let me know how to do so.">Contact Parkar about feedback</WhatsApp></div></div></section></main>;
+  return (
+    <main>
+      <PageHero
+        eyebrow="Student & Parent Feedback"
+        title="Your Experience Matters to Us"
+        description="Every student's journey is unique. We welcome your thoughts, suggestions and feedback to help us make the learning and guidance experience better."
+        crumbs={[{ label: 'Student Reviews' }]}
+      />
+
+      <section className="section">
+        <div className="wrap">
+
+          {/* Welcome section */}
+          <div className="reviews-intro">
+            <div className="reviews-intro-content">
+              <span className="reviews-eyebrow">
+                YOUR VOICE. OUR MOTIVATION.
+              </span>
+
+              <h2>
+                Every Journey Has a Story.
+                <br />
+                <span>Your Feedback Helps Us Grow.</span>
+              </h2>
+
+              <p>
+                At Parkar Paramedical Institute & Consultancy, we value
+                the opinions of students and parents. Your feedback helps
+                us understand your experience, improve our guidance and
+                serve future students better.
+              </p>
+
+              <div className="reviews-actions">
+                <WhatsApp message="Hello Parkar Team. I would like to share my feedback about my experience. Please guide me on how I can share it.">
+                  Share Your Feedback
+                </WhatsApp>
+              </div>
+            </div>
+
+            <div className="reviews-visual" aria-hidden="true">
+              <div className="reviews-visual-circle">
+                <GraduationCap size={76} strokeWidth={1.4} />
+              </div>
+              <div className="reviews-floating-card reviews-card-top">
+                <HeartPulse size={22} />
+                <span>Student First</span>
+              </div>
+              <div className="reviews-floating-card reviews-card-bottom">
+                <MessageCircle size={22} />
+                <span>Your Voice Matters</span>
+              </div>
+            </div>
+          </div>
+
+          {/* What feedback helps us improve */}
+          <div className="reviews-section-heading">
+            <span className="reviews-eyebrow">WE VALUE YOUR INPUT</span>
+            <h2>Help Us Make Your Experience Better</h2>
+            <p>
+              Your suggestions can help us improve different aspects of
+              student support and educational guidance.
+            </p>
+          </div>
+
+          <div className="reviews-benefits">
+            <article className="reviews-benefit">
+              <div className="reviews-benefit-icon">
+                <GraduationCap size={27} />
+              </div>
+              <h3>Learning Experience</h3>
+              <p>
+                Share your thoughts about the learning environment and
+                educational support.
+              </p>
+            </article>
+
+            <article className="reviews-benefit">
+              <div className="reviews-benefit-icon">
+                <Users size={27} />
+              </div>
+              <h3>Student Guidance</h3>
+              <p>
+                Tell us how we can make course information and career
+                guidance more helpful.
+              </p>
+            </article>
+
+            <article className="reviews-benefit">
+              <div className="reviews-benefit-icon">
+                <HeartPulse size={27} />
+              </div>
+              <h3>Support & Communication</h3>
+              <p>
+                Help us understand how we can improve communication
+                and support for students and families.
+              </p>
+            </article>
+          </div>
+
+          {/* Feedback call to action */}
+          <div className="reviews-cta">
+            <div className="reviews-cta-icon">
+              <MessageCircle size={30} />
+            </div>
+
+            <div className="reviews-cta-content">
+              <h2>We'd Love to Hear From You</h2>
+              <p>
+                Are you a student or parent who would like to share
+                an experience or suggestion? Contact our team on
+                WhatsApp. We welcome honest feedback and will seek
+                your permission before publishing any testimonial.
+              </p>
+            </div>
+
+            <div className="reviews-cta-action">
+              <WhatsApp message="Hello Parkar Team. I am a student/parent and would like to share my feedback or suggestions. Please guide me.">
+                Contact Parkar
+              </WhatsApp>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  );
 }
+
 function ContactPage() {
- return <main><PageHero eyebrow="Contact Parkar" title="Talk with our team" description="Contact the Deesa main branch for course inquiries, admission guidance and questions about the listed locations." crumbs={[{label:'Contact Us'}]}/><section className="section"><div className="wrap contact-layout"><div><div className="card contact-card"><div className="icon-box"><UserRound/></div><div><h3 style={{margin:'0 0 4px'}}>Sureshbhai Shrimali</h3><a href={phoneHref(phone)}><Phone size={14}/> {phone}</a></div></div><div className="card contact-card" style={{marginTop:12}}><div className="icon-box"><UserRound/></div><div><h3 style={{margin:'0 0 4px'}}>Jitubhai Barot</h3><a href={phoneHref(secondary)}><Phone size={14}/> {secondary}</a></div></div><div className="card" style={{marginTop:12}}><h3>Parkar Paramedical Institute & Consultancy</h3><p className="address">{address}</p><p><strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a></p><p><strong>GR reference:</strong> GJ/63/VG/01</p><p className="prose-copy">This is a supplied institute reference. It does not establish accreditation for every listed course.</p><div style={{display:'flex',gap:9,flexWrap:'wrap'}}><a className="btn btn-navy" href={phoneHref(phone)}><Phone size={15}/>Call now</a><WhatsApp message={homeMessage}>WhatsApp</WhatsApp><a className="btn btn-outline" href={`mailto:${email}`}><Mail size={15}/>Email</a></div><div style={{marginTop:12}}><a className="link-arrow" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={15}/>Directions to verified Deesa address</a></div></div><div className="notice" style={{marginTop:12}}>Only the Deesa address has been confirmed for directions. Call to verify exact details for other branches before visiting.</div></div><div className="card"><div className="eyebrow">Student inquiry</div><h2 style={{fontSize:30}}>Continue your inquiry on WhatsApp</h2><p>Required fields help prepare a clear message. Contact number is optional. The form does not save or send information from this site.</p><FormInquiry/><hr style={{border:0,borderTop:'1px solid #e3eaf0',margin:'25px 0'}}/><h3>Contact FAQs</h3><FaqList items={[[`What is the Deesa address?`,address],['Can I contact Parkar by email?',`Yes. Write to ${email}.`],['Is the phone number on this page clickable?','Yes. Use the call links to contact the primary or secondary number from your device.'],['How can I reach another branch?','Open the relevant branch page and use its WhatsApp inquiry. Confirm its address before travelling.']]}/></div></div></section></main>;
+ return <main><PageHero eyebrow="Contact Parkar" title="Talk with our team" description="Contact the Deesa main branch for course inquiries, admission guidance and questions about the listed locations." crumbs={[{label:'Contact Us'}]}/><section className="section"><div className="wrap contact-layout"><div><div className="card contact-card"><div className="icon-box"><UserRound/></div><div><h3 style={{margin:'0 0 4px'}}>Sureshbhai Shrimali</h3><a href={phoneHref(phone)}><Phone size={14}/> {phone}</a></div></div><div className="card contact-card" style={{marginTop:12}}><div className="icon-box"><UserRound/></div><div><h3 style={{margin:'0 0 4px'}}>Jitubhai Barot</h3><a href={phoneHref(secondary)}><Phone size={14}/> {secondary}</a></div></div><div className="card" style={{marginTop:12}}><h3>Parkar Paramedical Institute & Consultancy</h3><p className="address">{address}</p><p><strong>Email:</strong> <a href={`mailto:${email}`}>{email}</a></p><p><strong>GR reference:</strong> GJ/63/VG/01</p><p className="prose-copy">This is a supplied institute reference. It does not establish accreditation for every listed course.</p><div style={{display:'flex',gap:9,flexWrap:'wrap'}}><a className="btn btn-navy" href={phoneHref(phone)}><Phone size={15}/>Call now</a><WhatsApp message={homeMessage}>WhatsApp</WhatsApp><a className="btn btn-outline" href={`mailto:${email}`}><Mail size={15}/>Email</a></div><div style={{marginTop:12}}><a className="link-arrow" target="_blank" rel="noreferrer" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`}><Navigation size={15}/>Directions to verified Deesa address</a></div></div><div className="notice" style={{marginTop:12}}>Need directions? Contact our team for branch locations and assistance.</div></div><div className="card"><div className="eyebrow">Student inquiry</div><h2 style={{fontSize:30}}>Continue your inquiry on WhatsApp</h2><p>Required fields help prepare a clear message. Contact number is optional. The form does not save or send information from this site.</p><FormInquiry/><hr style={{border:0,borderTop:'1px solid #e3eaf0',margin:'25px 0'}}/><h3>Contact FAQs</h3><FaqList items={[[`What is the Deesa address?`,address],['Can I contact Parkar by email?',`Yes. Write to ${email}.`],['Is the phone number on this page clickable?','Yes. Use the call links to contact the primary or secondary number from your device.'],['How can I reach another branch?','Open the relevant branch page and use its WhatsApp inquiry. Confirm its address before travelling.']]}/></div></div></section></main>;
 }
 const legalContent:Record<string,{title:string;desc:string;sections:[string,string][]}> = {
  'privacy-policy':{title:'Privacy Policy',desc:'How this information website handles the details you choose to use in an inquiry.',sections:[
@@ -263,7 +680,7 @@ const legalContent:Record<string,{title:string;desc:string;sections:[string,stri
   ['Assistant roles','Assistant-level courses do not make a learner a doctor, registered nurse, dentist or other licensed professional. Duties and supervision are governed by applicable rules and employer policies.'],
   ['NIOS','Check current NIOS eligibility, subject and examination rules with NIOS. Confirm that selected subjects meet the entry requirements of the intended further course.'],
   ['Branches and locations','Only the Deesa address shown on this site has been supplied as verified. Other branch areas are listed without street addresses or map pins; call before travelling.'],
-  ['Career guidance','Career outcomes depend on the individual qualification, institution, applicable rules and employer requirements. No job guarantee is stated.']
+  ['Career guidance','Career outcomes depend on the individual qualification, institution, applicable rules and employer requirements. Guiding You Towards a Brighter Future.']
  ]}
 };
 function LegalPage({slug}:{slug:string}) {
